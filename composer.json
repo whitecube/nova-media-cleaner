@@ -1,0 +1,53 @@
+{
+    "name": "whitecube/nova-media-cleaner",
+    "description": "Search for unused uploads within Nova's storage directory and decide how to handle them.",
+    "license": "MIT",
+    "keywords": [
+        "laravel",
+        "nova",
+        "cms",
+        "uploads",
+        "files",
+        "remove",
+        "delete",
+        "cleanup",
+    ],
+    "authors": [
+        {
+            "name": "Toon Van den Bos",
+            "email": "toon@whitecube.be"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://nova.laravel.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.1.0",
+        "laravel/nova": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.1",
+        "orchestra/testbench": "3.8.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Whitecube\\NovaMediaCleaner\\": "src/",
+            "Tests\\": "tests/"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Whitecube\\NovaMediaCleaner\\NovaMediaCleanerServiceProvider"
+            ]
+        }
+    }
+}
