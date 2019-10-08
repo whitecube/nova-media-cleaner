@@ -10,7 +10,7 @@
         "files",
         "remove",
         "delete",
-        "cleanup",
+        "cleanup"
     ],
     "authors": [
         {
