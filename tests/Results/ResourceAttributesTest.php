@@ -69,4 +69,16 @@ class ResourceAttributesTest extends TestCase {
             $this->assertSame($expected[$key], $attribute);
         }
     }
+
+    /** @test */
+    public function can_check_if_resource_has_searchable_attributes()
+    {
+        $resource = \Tests\Fixtures\FakeResource::class;
+
+        $results = new ResourceAttributes($resource);
+
+        $this->assertTrue(
+            $results->hasSearchableAttributes(Request::create('/test', 'get'))
+        );
+    }
 }

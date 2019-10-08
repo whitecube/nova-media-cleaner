@@ -77,6 +77,31 @@ class ResourceAttributes
     }
 
     /**
+     * Launch a search query for given file
+     *
+     * @param  string $file
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Support\Collection
+     */
+    public function search($file, $request)
+    {
+        return $this->applySearchableAttributes($this->newQuery(), $file, $request)
+            ->get()
+            ->mapInto($this->resource);
+    }
+
+    /**
+     * Check if the resource has attributes to look into
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return bool
+     */
+    public function hasSearchableAttributes(Request $request)
+    {
+        return count($this->getSearchableAttributes($request)) > 0;
+    }
+
+    /**
      * Launch the attributes search
      *
      * @param  \Illuminate\Http\Request $request
@@ -137,5 +162,32 @@ class ResourceAttributes
             get_class($field),
             array_merge(static::$fields, $this->extra_fields)
         );
+    }
+
+    /**
+     * Determine if given field's attribute is searchable
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param string $file
+     * @param  \Illuminate\Http\Request $request
+     * @return bool
+     */
+    protected function applySearchableAttributes($query, $file, $request)
+    {
+        foreach ($this->getSearchableAttributes($request) as $attribute) {
+            $query->orWhere($attribute, 'LIKE', '%' . $file . '%');
+        }
+
+        return $query;
+    }
+
+    /**
+     * Create a new Eloquent query for underlying resource
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    protected function newQuery()
+    {
+        return $this->resource::newModel()->newQuery();
     }
 }
