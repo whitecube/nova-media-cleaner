@@ -14,7 +14,7 @@ class StorageTest extends TestCase {
     {
         $this->expectException(MissingRepositoryArgument::class);
 
-        new Storage();
+        (new Storage())->directory();
     }
 
     /** @test */
@@ -24,7 +24,7 @@ class StorageTest extends TestCase {
 
         $path = __DIR__ . '/foobar';
 
-        new Storage($path);
+        (new Storage())->directory($path);
     }
 
     /** @test */
@@ -34,7 +34,7 @@ class StorageTest extends TestCase {
 
         $path = __FILE__;
 
-        new Storage($path);
+        (new Storage())->directory($path);
     }
 
     /** @test */
@@ -42,7 +42,7 @@ class StorageTest extends TestCase {
     {
         $path = __DIR__;
 
-        $storage = new Storage($path);
+        $storage = (new Storage())->directory($path);
 
         $this->assertInstanceOf(\Illuminate\Support\Collection::class, $storage);
     }
@@ -52,7 +52,7 @@ class StorageTest extends TestCase {
     {
         $path = __DIR__ . '/../storage';
 
-        $storage = new Storage($path);
+        $storage = (new Storage())->directory($path);
 
         $this->assertSame(realpath($path), $storage->directory);
         $this->assertTrue($storage->recursive);
@@ -71,7 +71,9 @@ class StorageTest extends TestCase {
 
         $path = __DIR__ . '/../storage';
 
-        $storage = new Storage($path);
+        $storage = (new Storage())
+            ->directory($path)
+            ->scan();
 
         $this->assertCount(count($expected), $storage);
 
@@ -91,7 +93,10 @@ class StorageTest extends TestCase {
 
         $path = __DIR__ . '/../storage';
 
-        $storage = new Storage($path, false);
+        $storage = (new Storage())
+            ->directory($path)
+            ->recursive(false)
+            ->scan();
 
         $this->assertCount(count($expected), $storage);
 

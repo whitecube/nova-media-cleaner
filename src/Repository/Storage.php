@@ -44,17 +44,20 @@ class Storage extends Collection
     public function recursive($recursive = true)
     {
         $this->recursive = $recursive;
+
+        return $this;
     }
 
     /**
      * Populate collection with files
      *
-     * @param bool $recursive
-     * @return \Whitecube\NovaMediaCleaner\Repository\Storage
+     * @return this
      */
     public function scan()
     {
         $this->items = $this->findFiles($this->directory);
+
+        return $this;
     }
 
     /**
