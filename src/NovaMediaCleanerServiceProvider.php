@@ -39,5 +39,4 @@ class NovaPageServiceProvider extends ServiceProvider
     public function boot()
     {
     }
-
 }
