@@ -20,23 +20,41 @@ class Storage extends Collection
      *
      * @var bool
      */
-    public $recursive;
+    public $recursive = true;
 
     /**
-     * Create a new directory repository
+     * Set the directory to clean
      *
      * @param string $directory
-     * @param bool $recursive
-     * @return void
+     * @return this
      */
-    public function __construct($directory = null, $recursive = true)
+    public function directory($directory = null)
     {
         $this->directory = $this->getRealDirectory($directory);
-        $this->recursive = $recursive;
 
-        parent::__construct(
-            $this->findFiles($this->directory)
-        );
+        return $this;
+    }
+
+    /**
+     * Set the "find" recursivity
+     *
+     * @param bool $recursive
+     * @return this
+     */
+    public function recursive($recursive = true)
+    {
+        $this->recursive = $recursive;
+    }
+
+    /**
+     * Populate collection with files
+     *
+     * @param bool $recursive
+     * @return \Whitecube\NovaMediaCleaner\Repository\Storage
+     */
+    public function scan()
+    {
+        $this->items = $this->findFiles($this->directory);
     }
 
     /**

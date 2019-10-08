@@ -20,9 +20,54 @@ class Sources
      * @param  \Illuminate\Http\Request $request
      * @return void
      */
-    public function __construct(Request $request)
+    // public function __construct(Request $request)
+    // {
+    //     $this->inAvailableResources($request);
+    // }
+
+    /**
+     * Register resource as source
+     *
+     * @param  string $resource
+     * @return \Whitecube\NovaMediaCleaner\Results\ResourceAttributes
+     */
+    public function inResource($resource)
     {
-        $this->repositories = $this->getResourceSources($request);
+        return $this->registerResource($resource);
+    }
+
+    /**
+     * Get all the searchable resources
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return array
+     */
+    public function inAvailableResources(Request $request)
+    {
+        foreach (Nova::availableResources($request) as $key => $resource) {
+            $this->registerResource($resource, true, $request);
+        }
+    }
+
+    /**
+     * Get all the searchable resources
+     *
+     * @param  string $resource
+     * @param  bool $checkSearchable
+     * @param  \Illuminate\Http\Request $request
+     * @return null|\Whitecube\NovaMediaCleaner\Results\ResourceAttributes
+     */
+    protected function registerResource($resource, $checkSearchable = false, $request = null)
+    {
+        $source = new ResourceAttributes($resource);
+
+        if($checkSearchable && !$source->hasSearchableAttributes($request)) {
+            return;
+        }
+
+        $this->repositories[] = $source;
+
+        return $source;
     }
 
     /**
@@ -41,28 +86,5 @@ class Sources
         }
 
         return $results;
-    }
-
-    /**
-     * Get all the searchable resources
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @return array
-     */
-    protected function getResourceSources(Request $request)
-    {
-        $sources = [];
-
-        foreach (Nova::availableResources($request) as $key => $resource) {
-            $source = new ResourceAttributes($resource);
-
-            if(!$source->hasSearchableAttributes($request)) {
-                continue;
-            }
-
-            $sources[] = $source;
-        }
-
-        return $sources;
     }
 }

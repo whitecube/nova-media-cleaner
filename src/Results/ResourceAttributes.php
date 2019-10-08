@@ -83,7 +83,7 @@ class ResourceAttributes
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Support\Collection
      */
-    public function search($file, $request)
+    public function search($file, Request $request)
     {
         return $this->applySearchableAttributes($this->newQuery(), $file, $request)
             ->get()
