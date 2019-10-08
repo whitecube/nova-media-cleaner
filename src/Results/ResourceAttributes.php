@@ -1,6 +1,6 @@
 <?php
 
-namespace Whitecube\NovaMediaCleaner\Sources;
+namespace Whitecube\NovaMediaCleaner\Results;
 
 use Illuminate\Http\Request;
 

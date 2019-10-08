@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\Sources;
+namespace Tests\Results;
 
 use PHPUnit\Framework\TestCase;
 use Illuminate\Http\Request;
-use Whitecube\NovaMediaCleaner\Sources\ResourceAttributes;
+use Whitecube\NovaMediaCleaner\Results\ResourceAttributes;
 
 class ResourceAttributesTest extends TestCase {
 
@@ -15,9 +15,9 @@ class ResourceAttributesTest extends TestCase {
 
         $resource = \Tests\Fixtures\FakeResource::class;
 
-        $source = new ResourceAttributes($resource);
+        $results = new ResourceAttributes($resource);
 
-        $attributes = $source->getSearchableAttributes(
+        $attributes = $results->getSearchableAttributes(
             Request::create('/test', 'get')
         );
 
@@ -35,10 +35,10 @@ class ResourceAttributesTest extends TestCase {
 
         $resource = \Tests\Fixtures\FakeResource::class;
 
-        $source = (new ResourceAttributes($resource))
+        $results = (new ResourceAttributes($resource))
             ->addFields([\Laravel\Nova\Fields\Text::class]);
 
-        $attributes = $source->getSearchableAttributes(
+        $attributes = $results->getSearchableAttributes(
             Request::create('/test', 'get')
         );
 
@@ -56,10 +56,10 @@ class ResourceAttributesTest extends TestCase {
 
         $resource = \Tests\Fixtures\FakeResource::class;
 
-        $source = (new ResourceAttributes($resource))
+        $results = (new ResourceAttributes($resource))
             ->addAttributes(['foo', 'bar']);
 
-        $attributes = $source->getSearchableAttributes(
+        $attributes = $results->getSearchableAttributes(
             Request::create('/test', 'get')
         );
 
